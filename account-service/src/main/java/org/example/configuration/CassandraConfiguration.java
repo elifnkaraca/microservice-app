@@ -11,19 +11,19 @@ import org.springframework.data.cassandra.repository.config.EnableCassandraRepos
 @EnableCassandraRepositories
 public class CassandraConfiguration extends AbstractCassandraConfiguration {
 
-    @Value("${springmicroservicesapp.cassandra.keyspace.name}")
-    private String keyspaceName;
-
-    @Value("${springmicroservicesapp.cassandra.contact.point}")
+    @Value("${spcloud.cassandra.contact.point}")
     private String contactPoint;
 
-    @Value("${springmicroservicesapp.cassandra.port}")
+    @Value("${spcloud.cassandra.port}")
     private int port;
 
-    @Value("${springmicroservicesapp.cassandra.username}")
+    @Value("${spcloud.cassandra.keyspace.name}")
+    private String keyspaceName;
+
+    @Value("${spcloud.cassandra.username}")
     private String username;
 
-    @Value("${springmicroservicesapp.cassandra.password}")
+    @Value("${spcloud.cassandra.password}")
     private String password;
 
     @Override
@@ -47,10 +47,15 @@ public class CassandraConfiguration extends AbstractCassandraConfiguration {
     }
 
     @Override
+    public String[] getEntityBasePackages() {
+        return new String[] {"com.haydikodlayalim.accountservice"};
+    }
+
+    @Override
     public CassandraClusterFactoryBean cluster() {
         CassandraClusterFactoryBean clusterFactoryBean = super.cluster();
-        clusterFactoryBean.setPassword(password);
         clusterFactoryBean.setUsername(username);
+        clusterFactoryBean.setPassword(password);
         return clusterFactoryBean;
     }
 }
